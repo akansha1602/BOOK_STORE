@@ -1,0 +1,13 @@
+{% extends "book_outlet/base.html"%}
+{% block title%}
+All book_outlet/base.html{% endblock%}
+{% block content%}
+<ul>
+    {% for book in books%}
+    <!--<li><a href="{% url "book-detail" book.id %}">{{book.title}}</a>(Rating:{{book.rating}})</li> 
+        instead this can be used<-->
+    <li><a href="{{ book.get_absolute_url }}">{{book.title}}</a>(Rating:{{book.rating}})</li>
+
+    {% endfor %}
+</ul>
+{% endblock %}
