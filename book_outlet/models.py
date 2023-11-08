@@ -62,7 +62,7 @@ class Book(models.Model):
     step 16- work on book_detail page and add the corrasponding view in views.py, add it in urlspatterns
     step 17- wire up index and book_detail pages by adding links. By adding name to path in urlpatterns
     step 18-(did not implement-slug) make and run migrations
-    step 19-
+    
 
 
 
