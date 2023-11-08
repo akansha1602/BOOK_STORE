@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator,MaxValueValidator
 from django.urls import reverse
+from django.utils.text import slugify
 
 # Create your models here.
 
@@ -11,12 +12,20 @@ class Book(models.Model):
     )
     author=models.CharField(null=True,max_length=100)
     is_bestselling=models.BooleanField(default=False)
+    slug=models.SlugField(default="",blank=True,null=False)
 
+
+    """ to add slugs this function has to be overridden"""
+    """def save(self,*args,**kwargs):
+        self.slug=slugify(self.title)
+        super().save(*args, **kwargs)#to save data to db"""
+
+    
     def __str__(self):
         return f"{self.title} ({self.rating})"
     
     def get_absolute_url(self):
-        return reverse("book-detail",args=[self.id])
+        return reverse("book-detail",args=[str(self.slug)])
     
 
 
@@ -34,7 +43,8 @@ class Book(models.Model):
 
 
 
-""" step 1- create dbsqllite3 file and create class
+""" INITIAL SETUP WITH ONLY ONE MODEL
+step 1- create dbsqllite3 file and create class
     step2- update installed apps in settings.py with book_outlet
     step3- create migartions- terminal: python3 manage.py makemigrations
     step4- go to terminal and type python3 manage.py migrate to have a look and run all migrations
@@ -62,11 +72,19 @@ class Book(models.Model):
     step 16- work on book_detail page and add the corrasponding view in views.py, add it in urlspatterns
     step 17- wire up index and book_detail pages by adding links. By adding name to path in urlpatterns
     step 18-(did not implement-slug) make and run migrations
-    
+    step 19-Change urls.py to have slug instead of id and views.py book_detail function, get_absolute url replace id by slug
+    call the save() methods on the objects to add slug.
+    step 20-ADMINS: create superuser to login to admin,use in terminal
+    python3 manage.py createsuperuser, create password runserver and go to localhost:8000/admin/
+    and login
+    step 21- go to admins.py and register models there,reload and see book_outlet shows up there
+    add new Books
+    step 22- customize admin.py to prepopulate w required fields etc. Once admin.py is written, remove the save method in models.py
+    add list filter to BookAdmin
+"""
+""" WORKING WITH MULTIPLE MODELS
 
 
 
 
-
-
-      """
+"""
